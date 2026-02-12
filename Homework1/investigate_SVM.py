@@ -7,7 +7,9 @@ Student: Istiak Ahammed
 # =============================
 # 1. Import Libraries
 # =============================
-
+import os
+import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
 import pandas as pd
 
@@ -190,4 +192,78 @@ for kernel in kernels:
     predictions[kernel] = y_pred
 
     print(f"Kernel '{kernel}' training completed.")
+
+# =============================
+# 7. Performance Evaluation
+# =============================
+
+"""
+Goal:
+Evaluate performance of each SVM kernel using:
+
+    - Confusion Matrix (saved as PNG)
+    - Accuracy
+    - Precision
+    - Recall
+    - F1 Score
+
+All metrics will be saved into a CSV file.
+"""
+
+# Create output directory if not exists
+output_dir = "results"
+os.makedirs(output_dir, exist_ok=True)
+
+# List to store metric results
+results = []
+
+print("\nEvaluating Models...\n")
+
+for kernel in kernels:
+    y_pred = predictions[kernel]
+
+    # Compute confusion matrix
+    cm = confusion_matrix(y_test, y_pred)
+
+    # Compute metrics
+    acc = accuracy_score(y_test, y_pred)
+    prec = precision_score(y_test, y_pred)
+    rec = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+
+    # Save metrics in results list
+    results.append({
+        "Kernel": kernel,
+        "Accuracy": acc,
+        "Precision": prec,
+        "Recall": rec,
+        "F1_Score": f1
+    })
+
+    # Plot confusion matrix
+    plt.figure(figsize=(5, 4))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+    plt.title(f"Confusion Matrix - {kernel.upper()} Kernel")
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+
+    # Save figure
+    plt.savefig(os.path.join(output_dir, f"confusion_matrix_{kernel}.png"))
+    plt.close()
+
+    print(f"Kernel '{kernel}' evaluation completed.")
+
+# Convert results to DataFrame
+results_df = pd.DataFrame(results)
+
+# Display comparison table
+print("\nModel Performance Comparison:")
+print(results_df)
+
+# Save results to CSV
+csv_path = os.path.join(output_dir, "svm_kernel_comparison.csv")
+results_df.to_csv(csv_path, index=False)
+
+print(f"\nMetrics saved to: {csv_path}")
+print("Confusion matrices saved inside 'results/' folder.")
 
