@@ -109,3 +109,42 @@ print(y_train.value_counts())
 print("\nTesting class distribution:")
 print(y_test.value_counts())
 
+
+# =============================
+# 5. Feature Scaling
+# =============================
+
+"""
+Goal:
+Standardize the feature values.
+
+Why scaling is important?
+SVM is a distance-based algorithm.
+Features with larger numeric ranges can dominate smaller ones.
+Therefore, we standardize features to have:
+    - Mean = 0
+    - Standard deviation = 1
+
+Important:
+We fit the scaler ONLY on training data.
+Then we transform both training and testing data.
+This avoids data leakage.
+"""
+
+# Initialize scaler
+scaler = StandardScaler()
+
+# Fit only on training data
+X_train_scaled = scaler.fit_transform(X_train)
+
+# Use same transformation on test data
+X_test_scaled = scaler.transform(X_test)
+
+print("\nFeature Scaling Completed.")
+print("Scaled Training Data Shape:", X_train_scaled.shape)
+print("Scaled Testing Data Shape:", X_test_scaled.shape)
+
+# Optional sanity check: mean and std of training set
+print("\nMean of first scaled feature (train):", np.mean(X_train_scaled[:, 0]))
+print("Std of first scaled feature (train):", np.std(X_train_scaled[:, 0]))
+
