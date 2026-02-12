@@ -76,3 +76,36 @@ print(selected_feature_names)
 # Create new dataset with only selected features
 X_selected = X_all[selected_feature_names]
 y_selected = y_all
+
+# =============================
+# 4. Train-Test Split
+# =============================
+
+"""
+Goal:
+Split the selected dataset into training (80%) and testing (20%).
+
+Important:
+- stratify=y_selected ensures class distribution remains balanced.
+- random_state=42 ensures reproducibility.
+"""
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_selected,
+    y_selected,
+    test_size=0.2,        # 20% for testing
+    random_state=42,      # ensures same split every run
+    stratify=y_selected   # keeps class distribution consistent
+)
+
+print("\nTrain/Test Split Summary:")
+print("Training samples:", X_train.shape[0])
+print("Testing samples:", X_test.shape[0])
+print("Number of features used:", X_train.shape[1])
+
+print("\nTraining class distribution:")
+print(y_train.value_counts())
+
+print("\nTesting class distribution:")
+print(y_test.value_counts())
+
