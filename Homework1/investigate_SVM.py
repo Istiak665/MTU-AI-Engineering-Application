@@ -1,7 +1,7 @@
 """
 Homework 1: Investigation of SVM
 Course: AI Engineering Application
-Student: Istiak Ahammed
+Creator: Istiak Ahammed
 """
 
 # =============================
