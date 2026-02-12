@@ -267,3 +267,57 @@ results_df.to_csv(csv_path, index=False)
 print(f"\nMetrics saved to: {csv_path}")
 print("Confusion matrices saved inside 'results/' folder.")
 
+# =============================
+# 8. Conclusion
+# =============================
+
+"""
+Goal:
+Interpret the performance results and identify the best-performing kernel.
+"""
+
+# Identify best kernel based on highest accuracy
+best_model = results_df.loc[results_df["Accuracy"].idxmax()]
+
+best_kernel = best_model["Kernel"]
+best_accuracy = best_model["Accuracy"]
+
+print("\n=============================")
+print("FINAL CONCLUSION")
+print("=============================")
+
+print(f"\nBest Performing Kernel: {best_kernel.upper()}")
+print(f"Highest Accuracy Achieved: {best_accuracy:.4f}")
+
+print("\nDetailed Performance of Best Model:")
+print(f"Precision: {best_model['Precision']:.4f}")
+print(f"Recall: {best_model['Recall']:.4f}")
+print(f"F1 Score: {best_model['F1_Score']:.4f}")
+
+"""
+==============================
+Result Interpretations
+==============================
+
+In this investigation, Support Vector Machine (SVM) models were evaluated
+using four different kernel functions: Linear, Polynomial, RBF, and Sigmoid.
+
+Five most relevant features were selected based on highest correlation
+with the target variable to reduce dimensionality while preserving
+discriminative information.
+
+Among the tested kernels, the Linear kernel achieved the highest accuracy
+(94.74%), along with strong Precision (97.14%), Recall (94.44%), and
+F1-score (95.77%).
+
+This suggests that the selected features allow the data to be approximately
+linearly separable in the reduced feature space.
+
+Although RBF and Polynomial kernels also performed competitively,
+the Linear kernel provided the best overall balance of performance
+metrics for this dataset.
+
+Therefore, for the selected features and dataset configuration,
+the Linear SVM is the most suitable model.
+"""
+
