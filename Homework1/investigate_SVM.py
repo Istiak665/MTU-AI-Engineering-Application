@@ -148,3 +148,46 @@ print("Scaled Testing Data Shape:", X_test_scaled.shape)
 print("\nMean of first scaled feature (train):", np.mean(X_train_scaled[:, 0]))
 print("Std of first scaled feature (train):", np.std(X_train_scaled[:, 0]))
 
+# =============================
+# 6. SVM Model Training (Multiple Kernels)
+# =============================
+
+"""
+Goal:
+Train SVM models using different kernel functions.
+
+We will test:
+    - Linear
+    - Polynomial
+    - RBF (Gaussian)
+    - Sigmoid
+
+For each kernel:
+    1. Train the model
+    2. Make predictions on test set
+    3. Store predictions for evaluation
+"""
+
+# Define kernels to test
+kernels = ["linear", "poly", "rbf", "sigmoid"]
+
+# Dictionary to store predictions for each kernel
+predictions = {}
+
+print("\nTraining SVM models with different kernels...\n")
+
+for kernel in kernels:
+    # Initialize SVM model with current kernel
+    model = SVC(kernel=kernel, random_state=42)
+
+    # Train the model
+    model.fit(X_train_scaled, y_train)
+
+    # Predict on test data
+    y_pred = model.predict(X_test_scaled)
+
+    # Store predictions
+    predictions[kernel] = y_pred
+
+    print(f"Kernel '{kernel}' training completed.")
+
